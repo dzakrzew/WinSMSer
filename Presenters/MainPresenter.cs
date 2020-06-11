@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using WinSMSer.Properties;
 
 namespace WinSMSer.Presenters
 {
@@ -11,6 +13,7 @@ namespace WinSMSer.Presenters
     {
         private readonly Views.IMainView view;
         private readonly Services.UsbModemService usbModemService;
+
         public MainPresenter(Views.IMainView view, Services.UsbModemService usbModemService)
         {
             this.view = view;
@@ -34,11 +37,11 @@ namespace WinSMSer.Presenters
             {
                 if (usbModemService.SelectPort(port, pin))
                 {
-                    view.UpdateStatusBar("Połączono z modemem " + usbModemService.ModemInfo + " na porcie " + port);
+                    view.UpdateStatusBar(String.Format(Resources.ConnectedWithModemOnPort, usbModemService.ModemInfo, port));
                 }
                 else
                 {
-                    view.ShowError("Nie udało się połączyć. Sprawdź, czy podane ustawienia są poprawne i czy wprowadzono PIN karty SIM.");
+                    view.ShowError(Resources.DefaultConnectionError);
                 }
 
                 view.IsConnected = true;
