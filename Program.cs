@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinSMSer.Services;
 
 namespace WinSMSer
 {
@@ -16,7 +17,13 @@ namespace WinSMSer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+
+            var view = new Forms.MainForm();
+            var usbModemService = new Services.UsbModemService();
+            var presenter = new Presenters.MainPresenter(view, usbModemService);
+
+            Application.Run(view);
         }
     }
 }
