@@ -352,7 +352,8 @@
             // statusBar
             // 
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(0, 17);
+            this.statusBar.Size = new System.Drawing.Size(67, 17);
+            this.statusBar.Text = "Rozłączono";
             // 
             // receivedMessagesListView
             // 

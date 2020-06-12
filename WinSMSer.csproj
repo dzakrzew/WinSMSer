@@ -61,6 +61,12 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SendingTaskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SendingTaskForm.Designer.cs">
+      <DependentUpon>SendingTaskForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\MessageType.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
@@ -75,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SendingTaskForm.resx">
+      <DependentUpon>SendingTaskForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

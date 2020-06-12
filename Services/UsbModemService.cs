@@ -139,22 +139,6 @@ namespace WinSMSer.Services
             return false;
         }
 
-
-        public bool SendSms(string[] recipients, string message)
-        {
-            bool status = true;
-
-            foreach (string recipient in recipients)
-            {
-                if (!SendSms(recipient, message))
-                {
-                    status = false;
-                }
-            }
-
-            return status;
-        }
-
         public List<Model.Message> GetUnreadMessages()
         {
             List<Model.Message> messages = new List<Model.Message>();

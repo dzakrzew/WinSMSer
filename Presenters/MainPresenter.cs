@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace WinSMSer.Presenters
         private readonly Views.IMainView view;
         private readonly Services.UsbModemService usbModemService;
         private readonly Services.MessageDatabaseService messageDatabaseService;
+        private BackgroundWorker messageSendWorker;
 
         public MainPresenter(Views.IMainView view, Services.UsbModemService usbModemService, Services.MessageDatabaseService messageDatabaseService)
         {
@@ -64,13 +66,51 @@ namespace WinSMSer.Presenters
 
         public void SendMessage(string[] recipients, string message)
         {
-            if (usbModemService.SendSms(recipients, message))
+            messageSendWorker = new BackgroundWorker();
+            messageSendWorker.WorkerReportsProgress = true; 
+            messageSendWorker.DoWork += (obj, e) => MessageSendWorker_DoWork(obj, e, recipients, message);
+            messageSendWorker.ProgressChanged += MessageSendWorker_ProgressChanged;
+            messageSendWorker.RunWorkerCompleted += MessageSendWorker_RunWorkerCompleted;
+
+            messageSendWorker.RunWorkerAsync();
+        }
+
+        private void MessageSendWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            view.SendingTaskForm.SendingDone();
+        }
+
+        private void MessageSendWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            view.SendingTaskForm.UpdateProgress(e.ProgressPercentage, (int[])e.UserState);
+        }
+
+        private void MessageSendWorker_DoWork(object sender, DoWorkEventArgs e, string[] recipients, string message)
+        {
+            int countAll = recipients.Length;
+            int countPending = recipients.Length;
+            int countSent = 0;
+            int countError = 0;
+
+            messageSendWorker.ReportProgress(0, new int[] {
+                countAll, countPending, countSent, countError
+            });
+
+            foreach (string recipient in recipients)
             {
-                view.ShowError("Wysłano");
-            }
-            else
-            {
-                view.ShowError("Nie udało się wysłać wiadomości");
+                if (usbModemService.SendSms(recipient, message))
+                {
+                    countSent += 1;
+                    countPending -= 1;
+                }
+                else
+                {
+                    countError += 1;
+                }
+
+                messageSendWorker.ReportProgress((int)((countSent * 100 / countAll)), new int[] { 
+                    countAll, countPending, countSent, countError
+                });
             }
         }
 
@@ -85,7 +125,7 @@ namespace WinSMSer.Presenters
         public void DisconnectModem()
         {
             usbModemService.DisconnectModem();
-            view.UpdateStatusBar("");
+            view.UpdateStatusBar("Rozłączono");
             view.IsConnected = false;
         }
     }

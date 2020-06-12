@@ -14,6 +14,7 @@ namespace WinSMSer.Forms
     public partial class MainForm : Form, Views.IMainView
     {
         public Presenters.MainPresenter Presenter { get; set; }
+        public SendingTaskForm SendingTaskForm { get; set; }
 
         private bool _isConnected;
 
@@ -157,7 +158,10 @@ namespace WinSMSer.Forms
                 recipients.Add(recipientItem.Text);
             }
 
-            Presenter.SendMessage(recipients.ToArray(), messageTextBox.Text);
+            this.SendingTaskForm = new SendingTaskForm();
+            this.SendingTaskForm.Presenter = Presenter;
+            this.SendingTaskForm.StartSending(recipients.ToArray(), messageTextBox.Text);
+            this.SendingTaskForm.ShowDialog();
         }
 
         private void recipientTextBox_TextChanged(object sender, EventArgs e)
