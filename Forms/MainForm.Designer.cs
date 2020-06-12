@@ -30,6 +30,7 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.modemPage = new System.Windows.Forms.TabPage();
+            this.portAdvancedGroupBox = new System.Windows.Forms.GroupBox();
             this.pinTextBox = new System.Windows.Forms.TextBox();
             this.pinLabel = new System.Windows.Forms.Label();
             this.portAdvancedButton = new System.Windows.Forms.Button();
@@ -38,6 +39,16 @@
             this.choosePortLabel = new System.Windows.Forms.Label();
             this.portComboBox = new System.Windows.Forms.ComboBox();
             this.sendPage = new System.Windows.Forms.TabPage();
+            this.messageBoxLabel = new System.Windows.Forms.Label();
+            this.recipientLabel = new System.Windows.Forms.Label();
+            this.recipientsListLabel = new System.Windows.Forms.Label();
+            this.addRecipientButton = new System.Windows.Forms.Button();
+            this.clearRecipientsButton = new System.Windows.Forms.Button();
+            this.sendMessageButton = new System.Windows.Forms.Button();
+            this.messageTextBox = new System.Windows.Forms.TextBox();
+            this.recipientPrefixComboBox = new System.Windows.Forms.ComboBox();
+            this.recipientListView = new System.Windows.Forms.ListView();
+            this.recipientTextBox = new System.Windows.Forms.TextBox();
             this.receivePage = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,23 +57,18 @@
             this.oProgramieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
-            this.recipientTextBox = new System.Windows.Forms.TextBox();
-            this.recipientListView = new System.Windows.Forms.ListView();
-            this.recipientPrefixComboBox = new System.Windows.Forms.ComboBox();
-            this.messageTextBox = new System.Windows.Forms.TextBox();
-            this.sendMessageButton = new System.Windows.Forms.Button();
-            this.clearRecipientsButton = new System.Windows.Forms.Button();
-            this.addRecipientButton = new System.Windows.Forms.Button();
-            this.portAdvancedGroupBox = new System.Windows.Forms.GroupBox();
-            this.recipientsListLabel = new System.Windows.Forms.Label();
-            this.recipientLabel = new System.Windows.Forms.Label();
-            this.messageBoxLabel = new System.Windows.Forms.Label();
+            this.receivedMessagesListView = new System.Windows.Forms.ListView();
+            this.messagesRefreshButton = new System.Windows.Forms.Button();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl.SuspendLayout();
             this.modemPage.SuspendLayout();
+            this.portAdvancedGroupBox.SuspendLayout();
             this.sendPage.SuspendLayout();
+            this.receivePage.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
-            this.portAdvancedGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -75,6 +81,7 @@
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(600, 382);
             this.tabControl.TabIndex = 0;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // modemPage
             // 
@@ -91,6 +98,18 @@
             this.modemPage.TabIndex = 0;
             this.modemPage.Text = "Ustawienia modemu";
             this.modemPage.UseVisualStyleBackColor = true;
+            // 
+            // portAdvancedGroupBox
+            // 
+            this.portAdvancedGroupBox.Controls.Add(this.pinTextBox);
+            this.portAdvancedGroupBox.Controls.Add(this.pinLabel);
+            this.portAdvancedGroupBox.Location = new System.Drawing.Point(100, 156);
+            this.portAdvancedGroupBox.Name = "portAdvancedGroupBox";
+            this.portAdvancedGroupBox.Size = new System.Drawing.Size(400, 100);
+            this.portAdvancedGroupBox.TabIndex = 6;
+            this.portAdvancedGroupBox.TabStop = false;
+            this.portAdvancedGroupBox.Text = "Opcje modemu";
+            this.portAdvancedGroupBox.Visible = false;
             // 
             // pinTextBox
             // 
@@ -175,11 +194,107 @@
             this.sendPage.Text = "Wysyłanie SMS";
             this.sendPage.UseVisualStyleBackColor = true;
             // 
+            // messageBoxLabel
+            // 
+            this.messageBoxLabel.AutoSize = true;
+            this.messageBoxLabel.Location = new System.Drawing.Point(97, 187);
+            this.messageBoxLabel.Name = "messageBoxLabel";
+            this.messageBoxLabel.Size = new System.Drawing.Size(92, 13);
+            this.messageBoxLabel.TabIndex = 9;
+            this.messageBoxLabel.Text = "Treść wiadomości";
+            // 
+            // recipientLabel
+            // 
+            this.recipientLabel.AutoSize = true;
+            this.recipientLabel.Location = new System.Drawing.Point(97, 143);
+            this.recipientLabel.Name = "recipientLabel";
+            this.recipientLabel.Size = new System.Drawing.Size(79, 13);
+            this.recipientLabel.TabIndex = 8;
+            this.recipientLabel.Text = "Numer telefonu";
+            // 
+            // recipientsListLabel
+            // 
+            this.recipientsListLabel.AutoSize = true;
+            this.recipientsListLabel.Location = new System.Drawing.Point(97, 23);
+            this.recipientsListLabel.Name = "recipientsListLabel";
+            this.recipientsListLabel.Size = new System.Drawing.Size(81, 13);
+            this.recipientsListLabel.TabIndex = 7;
+            this.recipientsListLabel.Text = "Lista odbiorców";
+            // 
+            // addRecipientButton
+            // 
+            this.addRecipientButton.Location = new System.Drawing.Point(345, 158);
+            this.addRecipientButton.Name = "addRecipientButton";
+            this.addRecipientButton.Size = new System.Drawing.Size(75, 23);
+            this.addRecipientButton.TabIndex = 6;
+            this.addRecipientButton.Text = "Dodaj";
+            this.addRecipientButton.UseVisualStyleBackColor = true;
+            this.addRecipientButton.Click += new System.EventHandler(this.addRecipientButton_Click);
+            // 
+            // clearRecipientsButton
+            // 
+            this.clearRecipientsButton.Location = new System.Drawing.Point(345, 114);
+            this.clearRecipientsButton.Name = "clearRecipientsButton";
+            this.clearRecipientsButton.Size = new System.Drawing.Size(75, 23);
+            this.clearRecipientsButton.TabIndex = 5;
+            this.clearRecipientsButton.Text = "Wyczyść";
+            this.clearRecipientsButton.UseVisualStyleBackColor = true;
+            this.clearRecipientsButton.Click += new System.EventHandler(this.clearRecipientsButton_Click);
+            // 
+            // sendMessageButton
+            // 
+            this.sendMessageButton.Location = new System.Drawing.Point(392, 309);
+            this.sendMessageButton.Name = "sendMessageButton";
+            this.sendMessageButton.Size = new System.Drawing.Size(109, 23);
+            this.sendMessageButton.TabIndex = 4;
+            this.sendMessageButton.Text = "Wyślij";
+            this.sendMessageButton.UseVisualStyleBackColor = true;
+            this.sendMessageButton.Click += new System.EventHandler(this.sendMessageButton_Click);
+            // 
+            // messageTextBox
+            // 
+            this.messageTextBox.Location = new System.Drawing.Point(100, 203);
+            this.messageTextBox.Multiline = true;
+            this.messageTextBox.Name = "messageTextBox";
+            this.messageTextBox.Size = new System.Drawing.Size(400, 100);
+            this.messageTextBox.TabIndex = 3;
+            this.messageTextBox.TextChanged += new System.EventHandler(this.messageTextBox_TextChanged);
+            // 
+            // recipientPrefixComboBox
+            // 
+            this.recipientPrefixComboBox.FormattingEnabled = true;
+            this.recipientPrefixComboBox.Items.AddRange(new object[] {
+            "+48"});
+            this.recipientPrefixComboBox.Location = new System.Drawing.Point(100, 159);
+            this.recipientPrefixComboBox.Name = "recipientPrefixComboBox";
+            this.recipientPrefixComboBox.Size = new System.Drawing.Size(47, 21);
+            this.recipientPrefixComboBox.TabIndex = 2;
+            // 
+            // recipientListView
+            // 
+            this.recipientListView.HideSelection = false;
+            this.recipientListView.Location = new System.Drawing.Point(100, 39);
+            this.recipientListView.Name = "recipientListView";
+            this.recipientListView.Size = new System.Drawing.Size(239, 97);
+            this.recipientListView.TabIndex = 1;
+            this.recipientListView.UseCompatibleStateImageBehavior = false;
+            this.recipientListView.View = System.Windows.Forms.View.List;
+            // 
+            // recipientTextBox
+            // 
+            this.recipientTextBox.Location = new System.Drawing.Point(153, 160);
+            this.recipientTextBox.Name = "recipientTextBox";
+            this.recipientTextBox.Size = new System.Drawing.Size(186, 20);
+            this.recipientTextBox.TabIndex = 0;
+            this.recipientTextBox.TextChanged += new System.EventHandler(this.recipientTextBox_TextChanged);
+            // 
             // receivePage
             // 
+            this.receivePage.Controls.Add(this.messagesRefreshButton);
+            this.receivePage.Controls.Add(this.receivedMessagesListView);
             this.receivePage.Location = new System.Drawing.Point(4, 22);
             this.receivePage.Name = "receivePage";
-            this.receivePage.Size = new System.Drawing.Size(768, 356);
+            this.receivePage.Size = new System.Drawing.Size(592, 356);
             this.receivePage.TabIndex = 2;
             this.receivePage.Text = "Skrzynka odbiorcza";
             this.receivePage.UseVisualStyleBackColor = true;
@@ -239,111 +354,42 @@
             this.statusBar.Name = "statusBar";
             this.statusBar.Size = new System.Drawing.Size(0, 17);
             // 
-            // recipientTextBox
+            // receivedMessagesListView
             // 
-            this.recipientTextBox.Location = new System.Drawing.Point(153, 151);
-            this.recipientTextBox.Name = "recipientTextBox";
-            this.recipientTextBox.Size = new System.Drawing.Size(186, 20);
-            this.recipientTextBox.TabIndex = 0;
-            this.recipientTextBox.TextChanged += new System.EventHandler(this.recipientTextBox_TextChanged);
+            this.receivedMessagesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3});
+            this.receivedMessagesListView.FullRowSelect = true;
+            this.receivedMessagesListView.HideSelection = false;
+            this.receivedMessagesListView.Location = new System.Drawing.Point(3, 3);
+            this.receivedMessagesListView.Name = "receivedMessagesListView";
+            this.receivedMessagesListView.Size = new System.Drawing.Size(586, 176);
+            this.receivedMessagesListView.TabIndex = 0;
+            this.receivedMessagesListView.UseCompatibleStateImageBehavior = false;
+            this.receivedMessagesListView.View = System.Windows.Forms.View.Details;
             // 
-            // recipientListView
+            // messagesRefreshButton
             // 
-            this.recipientListView.HideSelection = false;
-            this.recipientListView.Location = new System.Drawing.Point(100, 30);
-            this.recipientListView.Name = "recipientListView";
-            this.recipientListView.Size = new System.Drawing.Size(239, 97);
-            this.recipientListView.TabIndex = 1;
-            this.recipientListView.UseCompatibleStateImageBehavior = false;
-            this.recipientListView.View = System.Windows.Forms.View.List;
+            this.messagesRefreshButton.Location = new System.Drawing.Point(514, 185);
+            this.messagesRefreshButton.Name = "messagesRefreshButton";
+            this.messagesRefreshButton.Size = new System.Drawing.Size(75, 23);
+            this.messagesRefreshButton.TabIndex = 1;
+            this.messagesRefreshButton.Text = "Odśwież";
+            this.messagesRefreshButton.UseVisualStyleBackColor = true;
+            this.messagesRefreshButton.Click += new System.EventHandler(this.messagesRefreshButton_Click);
             // 
-            // recipientPrefixComboBox
+            // columnHeader1
             // 
-            this.recipientPrefixComboBox.FormattingEnabled = true;
-            this.recipientPrefixComboBox.Items.AddRange(new object[] {
-            "+48"});
-            this.recipientPrefixComboBox.Location = new System.Drawing.Point(100, 150);
-            this.recipientPrefixComboBox.Name = "recipientPrefixComboBox";
-            this.recipientPrefixComboBox.Size = new System.Drawing.Size(47, 21);
-            this.recipientPrefixComboBox.TabIndex = 2;
+            this.columnHeader1.Text = "Nadawca";
             // 
-            // messageTextBox
+            // columnHeader2
             // 
-            this.messageTextBox.Location = new System.Drawing.Point(100, 194);
-            this.messageTextBox.Multiline = true;
-            this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(400, 100);
-            this.messageTextBox.TabIndex = 3;
-            this.messageTextBox.TextChanged += new System.EventHandler(this.messageTextBox_TextChanged);
+            this.columnHeader2.Text = "Data";
             // 
-            // sendMessageButton
+            // columnHeader3
             // 
-            this.sendMessageButton.Location = new System.Drawing.Point(392, 300);
-            this.sendMessageButton.Name = "sendMessageButton";
-            this.sendMessageButton.Size = new System.Drawing.Size(109, 23);
-            this.sendMessageButton.TabIndex = 4;
-            this.sendMessageButton.Text = "Wyślij";
-            this.sendMessageButton.UseVisualStyleBackColor = true;
-            this.sendMessageButton.Click += new System.EventHandler(this.sendMessageButton_Click);
-            // 
-            // clearRecipientsButton
-            // 
-            this.clearRecipientsButton.Location = new System.Drawing.Point(345, 105);
-            this.clearRecipientsButton.Name = "clearRecipientsButton";
-            this.clearRecipientsButton.Size = new System.Drawing.Size(75, 23);
-            this.clearRecipientsButton.TabIndex = 5;
-            this.clearRecipientsButton.Text = "Wyczyść";
-            this.clearRecipientsButton.UseVisualStyleBackColor = true;
-            this.clearRecipientsButton.Click += new System.EventHandler(this.clearRecipientsButton_Click);
-            // 
-            // addRecipientButton
-            // 
-            this.addRecipientButton.Location = new System.Drawing.Point(345, 149);
-            this.addRecipientButton.Name = "addRecipientButton";
-            this.addRecipientButton.Size = new System.Drawing.Size(75, 23);
-            this.addRecipientButton.TabIndex = 6;
-            this.addRecipientButton.Text = "Dodaj";
-            this.addRecipientButton.UseVisualStyleBackColor = true;
-            this.addRecipientButton.Click += new System.EventHandler(this.addRecipientButton_Click);
-            // 
-            // portAdvancedGroupBox
-            // 
-            this.portAdvancedGroupBox.Controls.Add(this.pinTextBox);
-            this.portAdvancedGroupBox.Controls.Add(this.pinLabel);
-            this.portAdvancedGroupBox.Location = new System.Drawing.Point(100, 156);
-            this.portAdvancedGroupBox.Name = "portAdvancedGroupBox";
-            this.portAdvancedGroupBox.Size = new System.Drawing.Size(400, 100);
-            this.portAdvancedGroupBox.TabIndex = 6;
-            this.portAdvancedGroupBox.TabStop = false;
-            this.portAdvancedGroupBox.Text = "Opcje modemu";
-            this.portAdvancedGroupBox.Visible = false;
-            // 
-            // recipientsListLabel
-            // 
-            this.recipientsListLabel.AutoSize = true;
-            this.recipientsListLabel.Location = new System.Drawing.Point(97, 14);
-            this.recipientsListLabel.Name = "recipientsListLabel";
-            this.recipientsListLabel.Size = new System.Drawing.Size(81, 13);
-            this.recipientsListLabel.TabIndex = 7;
-            this.recipientsListLabel.Text = "Lista odbiorców";
-            // 
-            // recipientLabel
-            // 
-            this.recipientLabel.AutoSize = true;
-            this.recipientLabel.Location = new System.Drawing.Point(97, 134);
-            this.recipientLabel.Name = "recipientLabel";
-            this.recipientLabel.Size = new System.Drawing.Size(79, 13);
-            this.recipientLabel.TabIndex = 8;
-            this.recipientLabel.Text = "Numer telefonu";
-            // 
-            // messageBoxLabel
-            // 
-            this.messageBoxLabel.AutoSize = true;
-            this.messageBoxLabel.Location = new System.Drawing.Point(97, 178);
-            this.messageBoxLabel.Name = "messageBoxLabel";
-            this.messageBoxLabel.Size = new System.Drawing.Size(92, 13);
-            this.messageBoxLabel.TabIndex = 9;
-            this.messageBoxLabel.Text = "Treść wiadomości";
+            this.columnHeader3.Text = "Treść";
             // 
             // MainForm
             // 
@@ -357,20 +403,22 @@
             this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "MainForm";
             this.Text = "WinSMSer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.tabControl.ResumeLayout(false);
             this.modemPage.ResumeLayout(false);
             this.modemPage.PerformLayout();
+            this.portAdvancedGroupBox.ResumeLayout(false);
+            this.portAdvancedGroupBox.PerformLayout();
             this.sendPage.ResumeLayout(false);
             this.sendPage.PerformLayout();
+            this.receivePage.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
-            this.portAdvancedGroupBox.ResumeLayout(false);
-            this.portAdvancedGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -407,5 +455,10 @@
         private System.Windows.Forms.Label messageBoxLabel;
         private System.Windows.Forms.Label recipientLabel;
         private System.Windows.Forms.Label recipientsListLabel;
+        private System.Windows.Forms.Button messagesRefreshButton;
+        private System.Windows.Forms.ListView receivedMessagesListView;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
     }
 }

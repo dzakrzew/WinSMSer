@@ -11,8 +11,10 @@ namespace WinSMSer.Views
     {
         MainPresenter Presenter { set; }
         IList<string> PortList { get; set; }
+        IList<Model.Message> MessageList { get; set; }
         void ShowError(string message);
         void UpdateStatusBar(string message);
+        void UpdateMessageList();
         bool IsConnected { get; set; }
     }
 }

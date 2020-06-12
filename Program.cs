@@ -21,7 +21,8 @@ namespace WinSMSer
 
             var view = new Forms.MainForm();
             var usbModemService = new Services.UsbModemService();
-            var presenter = new Presenters.MainPresenter(view, usbModemService);
+            var messageDatabaseService = new Services.MessageDatabaseService();
+            var presenter = new Presenters.MainPresenter(view, usbModemService, messageDatabaseService);
 
             Application.Run(view);
         }

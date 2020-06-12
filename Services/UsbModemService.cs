@@ -105,7 +105,89 @@ namespace WinSMSer.Services
 
         public void DisconnectModem()
         {
-            serialPort.Close();
+            if (serialPort != null)
+            {
+                serialPort.Close();
+            }
+
+        }
+
+        public bool SendSms(string recipient, string message)
+        {
+            // set sms text mode
+            serialPort.WriteLine("at+cmgf=1" + Environment.NewLine);
+            Thread.Sleep(100);
+
+            if (serialPort.ReadExisting().Contains("OK"))
+            {
+                // send message
+                serialPort.WriteLine("at+cmgs=\"" + recipient + "\"" + Environment.NewLine);
+                Thread.Sleep(100);
+
+                serialPort.WriteLine(message + Environment.NewLine);
+                Thread.Sleep(100);
+                serialPort.WriteLine((char)26 + Environment.NewLine);
+                Thread.Sleep(2000);
+
+                while (!serialPort.ReadExisting().Contains("OK"))
+                {
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public bool SendSms(string[] recipients, string message)
+        {
+            bool status = true;
+
+            foreach (string recipient in recipients)
+            {
+                if (!SendSms(recipient, message))
+                {
+                    status = false;
+                }
+            }
+
+            return status;
+        }
+
+        public List<Model.Message> GetUnreadMessages()
+        {
+            List<Model.Message> messages = new List<Model.Message>();
+
+            serialPort.WriteLine("at+cmgf=1" + Environment.NewLine);
+            Thread.Sleep(100);
+            serialPort.WriteLine("at+cmgl=\"ALL\"" + Environment.NewLine);
+            Thread.Sleep(100);
+
+            var response = serialPort.ReadExisting();
+
+            if (response.Contains("OK"))
+            {
+                Regex reg = new Regex(@"\+CMGL\:([\d ]+),.([A-Z ]+).,.([\d\+]+).,,.([\d\/,:\+]+).\r\n(.*)");
+
+                MatchCollection matches = reg.Matches(response);
+
+                foreach (Match m in matches)
+                {
+                    Model.Message message = new Model.Message();
+                    message.Type = Model.MessageType.Received;
+                    message.Sender = m.Groups[3].Value;
+                    message.Date = m.Groups[4].Value;
+                    message.Content = m.Groups[5].Value.Trim();
+
+                    messages.Add(message);
+
+                    serialPort.WriteLine("at+cmgd=" + m.Groups[1] + Environment.NewLine);
+                    Thread.Sleep(100);
+                }
+            }
+
+            return messages;
         }
     }
 }
