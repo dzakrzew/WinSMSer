@@ -18,7 +18,6 @@ namespace WinSMSer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-
             var view = new Forms.MainForm();
             var usbModemService = new Services.UsbModemService();
             var messageDatabaseService = new Services.MessageDatabaseService();

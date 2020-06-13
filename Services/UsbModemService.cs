@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.Ports;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -112,7 +113,7 @@ namespace WinSMSer.Services
 
         }
 
-        public bool SendSms(string recipient, string message)
+        public bool SendSms(string recipient, string content)
         {
             // set sms text mode
             serialPort.WriteLine("at+cmgf=1" + Environment.NewLine);
@@ -124,7 +125,7 @@ namespace WinSMSer.Services
                 serialPort.WriteLine("at+cmgs=\"" + recipient + "\"" + Environment.NewLine);
                 Thread.Sleep(100);
 
-                serialPort.WriteLine(message + Environment.NewLine);
+                serialPort.WriteLine(content + Environment.NewLine);
                 Thread.Sleep(100);
                 serialPort.WriteLine((char)26 + Environment.NewLine);
                 Thread.Sleep(2000);
@@ -153,7 +154,6 @@ namespace WinSMSer.Services
             if (response.Contains("OK"))
             {
                 Regex reg = new Regex(@"\+CMGL\:([\d ]+),.([A-Z ]+).,.([\d\+]+).,,.([\d\/,:\+]+).\r\n(.*)");
-
                 MatchCollection matches = reg.Matches(response);
 
                 foreach (Match m in matches)
@@ -161,7 +161,9 @@ namespace WinSMSer.Services
                     Model.Message message = new Model.Message();
                     message.Type = Model.MessageType.Received;
                     message.Sender = m.Groups[3].Value;
-                    message.Date = m.Groups[4].Value;
+
+                    // parsowanie tego dziwnego formatu daty
+                    message.Date = DateTime.ParseExact(m.Groups[4].Value, "yy/MM/dd,HH:mm:ss", CultureInfo.InvariantCulture);
                     message.Content = m.Groups[5].Value.Trim();
 
                     messages.Add(message);

@@ -62,14 +62,27 @@ namespace WinSMSer.Forms
         public void UpdateMessageList()
         {
             receivedMessagesListView.Items.Clear();
+            sentMessagesListView.Items.Clear();
 
             foreach (Model.Message message in MessageList)
             {
-                receivedMessagesListView.Items.Add(
-                    new ListViewItem(new string[] {
-                        message.Sender, message.Date, message.Content
-                    })
-                );
+                if (message.Type == Model.MessageType.Received)
+                {
+                    receivedMessagesListView.Items.Add(
+                        new ListViewItem(new string[] {
+                        message.Sender, message.Date.ToString("yyyy-MM-dd HH:mm:ss"), message.Content
+                        })
+                    );
+                }
+
+                if (message.Type == Model.MessageType.Sent)
+                {
+                    sentMessagesListView.Items.Add(
+                        new ListViewItem(new string[] {
+                        message.Recipent, message.Date.ToString("yyyy-MM-dd HH:mm:ss"), message.Content
+                        })
+                    );
+                }
             }
         }
 
@@ -162,6 +175,8 @@ namespace WinSMSer.Forms
             this.SendingTaskForm.Controller = Controller;
             this.SendingTaskForm.StartSending(recipients.ToArray(), messageTextBox.Text);
             this.SendingTaskForm.ShowDialog();
+
+            Controller.UpdateMessageList();
         }
 
         private void recipientTextBox_TextChanged(object sender, EventArgs e)
@@ -222,6 +237,11 @@ namespace WinSMSer.Forms
             clearRecipientsButton.Location = new Point((sendPage.Size.Width - 392) / 2 + 245, sendPagePaddingTop + 91);
             recipientsListLabel.Location = new Point((sendPage.Size.Width - 392) / 2 - 3, sendPagePaddingTop);
             sendMessageButton.Location = new Point((sendPage.Size.Width - 392) / 2 + 292, sendPagePaddingTop + 286);
+
+            // inbox/outbox page settings
+            receivedMessagesListView.Size = new Size(receivePage.Width - 124, 205);
+            sentMessagesListView.Size = new Size(receivePage.Width - 124, 205);
+            messageDetailsGroupBox.Size = new Size(receivePage.Width - 124, 138);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -232,6 +252,38 @@ namespace WinSMSer.Forms
         private void messagesRefreshButton_Click(object sender, EventArgs e)
         {
             Controller.RefreshMessageList();
+        }
+
+        private void inboxTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Tag == "inbox")
+            {
+                receivedMessagesListView.Visible = true;
+                sentMessagesListView.Visible = false;
+            }
+            else if (e.Node.Tag == "outbox")
+            {
+                receivedMessagesListView.Visible = false;
+                sentMessagesListView.Visible = true;
+            }
+        }
+
+        private void sentMessagesListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            messageDetailsGroupBox.Visible = true;
+
+            messageDetailsFromToLabel.Text = e.Item.SubItems[0].Text;
+            messageDetailsDateLabel.Text = e.Item.SubItems[1].Text;
+            messageDetailsContentTextBox.Text = e.Item.SubItems[2].Text;
+        }
+
+        private void receivedMessagesListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            messageDetailsGroupBox.Visible = true;
+
+            messageDetailsFromToLabel.Text = e.Item.SubItems[0].Text;
+            messageDetailsDateLabel.Text = e.Item.SubItems[1].Text;
+            messageDetailsContentTextBox.Text = e.Item.SubItems[2].Text;
         }
     }
 }

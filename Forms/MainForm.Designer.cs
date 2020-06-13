@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Odebrane");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Wysłane");
             this.tabControl = new System.Windows.Forms.TabControl();
             this.modemPage = new System.Windows.Forms.TabPage();
             this.portAdvancedGroupBox = new System.Windows.Forms.GroupBox();
@@ -50,6 +52,17 @@
             this.recipientListView = new System.Windows.Forms.ListView();
             this.recipientTextBox = new System.Windows.Forms.TextBox();
             this.receivePage = new System.Windows.Forms.TabPage();
+            this.messageDetailsGroupBox = new System.Windows.Forms.GroupBox();
+            this.sentMessagesListView = new System.Windows.Forms.ListView();
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.inboxTreeView = new System.Windows.Forms.TreeView();
+            this.messagesRefreshButton = new System.Windows.Forms.Button();
+            this.receivedMessagesListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCloseItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,16 +70,18 @@
             this.oProgramieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
-            this.receivedMessagesListView = new System.Windows.Forms.ListView();
-            this.messagesRefreshButton = new System.Windows.Forms.Button();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label1 = new System.Windows.Forms.Label();
+            this.messageDetailsFromToLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.messageDetailsDateLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.messageDetailsContentTextBox = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.modemPage.SuspendLayout();
             this.portAdvancedGroupBox.SuspendLayout();
             this.sendPage.SuspendLayout();
             this.receivePage.SuspendLayout();
+            this.messageDetailsGroupBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -290,6 +305,9 @@
             // 
             // receivePage
             // 
+            this.receivePage.Controls.Add(this.messageDetailsGroupBox);
+            this.receivePage.Controls.Add(this.sentMessagesListView);
+            this.receivePage.Controls.Add(this.inboxTreeView);
             this.receivePage.Controls.Add(this.messagesRefreshButton);
             this.receivePage.Controls.Add(this.receivedMessagesListView);
             this.receivePage.Location = new System.Drawing.Point(4, 22);
@@ -298,6 +316,106 @@
             this.receivePage.TabIndex = 2;
             this.receivePage.Text = "Skrzynka odbiorcza";
             this.receivePage.UseVisualStyleBackColor = true;
+            // 
+            // messageDetailsGroupBox
+            // 
+            this.messageDetailsGroupBox.Controls.Add(this.messageDetailsContentTextBox);
+            this.messageDetailsGroupBox.Controls.Add(this.label3);
+            this.messageDetailsGroupBox.Controls.Add(this.messageDetailsDateLabel);
+            this.messageDetailsGroupBox.Controls.Add(this.label2);
+            this.messageDetailsGroupBox.Controls.Add(this.messageDetailsFromToLabel);
+            this.messageDetailsGroupBox.Controls.Add(this.label1);
+            this.messageDetailsGroupBox.Location = new System.Drawing.Point(121, 215);
+            this.messageDetailsGroupBox.Name = "messageDetailsGroupBox";
+            this.messageDetailsGroupBox.Size = new System.Drawing.Size(468, 138);
+            this.messageDetailsGroupBox.TabIndex = 5;
+            this.messageDetailsGroupBox.TabStop = false;
+            this.messageDetailsGroupBox.Text = "Szczegóły wiadomości";
+            this.messageDetailsGroupBox.Visible = false;
+            // 
+            // sentMessagesListView
+            // 
+            this.sentMessagesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader4,
+            this.columnHeader5,
+            this.columnHeader6});
+            this.sentMessagesListView.FullRowSelect = true;
+            this.sentMessagesListView.HideSelection = false;
+            this.sentMessagesListView.Location = new System.Drawing.Point(121, 3);
+            this.sentMessagesListView.Name = "sentMessagesListView";
+            this.sentMessagesListView.Size = new System.Drawing.Size(468, 205);
+            this.sentMessagesListView.TabIndex = 4;
+            this.sentMessagesListView.UseCompatibleStateImageBehavior = false;
+            this.sentMessagesListView.View = System.Windows.Forms.View.Details;
+            this.sentMessagesListView.Visible = false;
+            this.sentMessagesListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.sentMessagesListView_ItemSelectionChanged);
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Odbiorca";
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Data";
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Treść";
+            // 
+            // inboxTreeView
+            // 
+            this.inboxTreeView.Location = new System.Drawing.Point(3, 3);
+            this.inboxTreeView.Name = "inboxTreeView";
+            treeNode7.Name = "inboxNode";
+            treeNode7.Tag = "inbox";
+            treeNode7.Text = "Odebrane";
+            treeNode8.Name = "outboxNode";
+            treeNode8.Tag = "outbox";
+            treeNode8.Text = "Wysłane";
+            this.inboxTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode7,
+            treeNode8});
+            this.inboxTreeView.Size = new System.Drawing.Size(112, 176);
+            this.inboxTreeView.TabIndex = 2;
+            this.inboxTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.inboxTreeView_AfterSelect);
+            // 
+            // messagesRefreshButton
+            // 
+            this.messagesRefreshButton.Location = new System.Drawing.Point(3, 185);
+            this.messagesRefreshButton.Name = "messagesRefreshButton";
+            this.messagesRefreshButton.Size = new System.Drawing.Size(112, 23);
+            this.messagesRefreshButton.TabIndex = 1;
+            this.messagesRefreshButton.Text = "Odśwież";
+            this.messagesRefreshButton.UseVisualStyleBackColor = true;
+            this.messagesRefreshButton.Click += new System.EventHandler(this.messagesRefreshButton_Click);
+            // 
+            // receivedMessagesListView
+            // 
+            this.receivedMessagesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3});
+            this.receivedMessagesListView.FullRowSelect = true;
+            this.receivedMessagesListView.HideSelection = false;
+            this.receivedMessagesListView.Location = new System.Drawing.Point(121, 3);
+            this.receivedMessagesListView.Name = "receivedMessagesListView";
+            this.receivedMessagesListView.Size = new System.Drawing.Size(468, 205);
+            this.receivedMessagesListView.TabIndex = 0;
+            this.receivedMessagesListView.UseCompatibleStateImageBehavior = false;
+            this.receivedMessagesListView.View = System.Windows.Forms.View.Details;
+            this.receivedMessagesListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.receivedMessagesListView_ItemSelectionChanged);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Nadawca";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Data";
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Treść";
             // 
             // menuStrip1
             // 
@@ -355,42 +473,58 @@
             this.statusBar.Size = new System.Drawing.Size(67, 17);
             this.statusBar.Text = "Rozłączono";
             // 
-            // receivedMessagesListView
+            // label1
             // 
-            this.receivedMessagesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
-            this.receivedMessagesListView.FullRowSelect = true;
-            this.receivedMessagesListView.HideSelection = false;
-            this.receivedMessagesListView.Location = new System.Drawing.Point(3, 3);
-            this.receivedMessagesListView.Name = "receivedMessagesListView";
-            this.receivedMessagesListView.Size = new System.Drawing.Size(586, 176);
-            this.receivedMessagesListView.TabIndex = 0;
-            this.receivedMessagesListView.UseCompatibleStateImageBehavior = false;
-            this.receivedMessagesListView.View = System.Windows.Forms.View.Details;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Od/do:";
             // 
-            // messagesRefreshButton
+            // messageDetailsFromToLabel
             // 
-            this.messagesRefreshButton.Location = new System.Drawing.Point(514, 185);
-            this.messagesRefreshButton.Name = "messagesRefreshButton";
-            this.messagesRefreshButton.Size = new System.Drawing.Size(75, 23);
-            this.messagesRefreshButton.TabIndex = 1;
-            this.messagesRefreshButton.Text = "Odśwież";
-            this.messagesRefreshButton.UseVisualStyleBackColor = true;
-            this.messagesRefreshButton.Click += new System.EventHandler(this.messagesRefreshButton_Click);
+            this.messageDetailsFromToLabel.Location = new System.Drawing.Point(54, 20);
+            this.messageDetailsFromToLabel.Name = "messageDetailsFromToLabel";
+            this.messageDetailsFromToLabel.Size = new System.Drawing.Size(408, 13);
+            this.messageDetailsFromToLabel.TabIndex = 1;
+            this.messageDetailsFromToLabel.Text = "label2";
             // 
-            // columnHeader1
+            // label2
             // 
-            this.columnHeader1.Text = "Nadawca";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 33);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Data:";
             // 
-            // columnHeader2
+            // messageDetailsDateLabel
             // 
-            this.columnHeader2.Text = "Data";
+            this.messageDetailsDateLabel.AutoSize = true;
+            this.messageDetailsDateLabel.Location = new System.Drawing.Point(54, 33);
+            this.messageDetailsDateLabel.Name = "messageDetailsDateLabel";
+            this.messageDetailsDateLabel.Size = new System.Drawing.Size(35, 13);
+            this.messageDetailsDateLabel.TabIndex = 3;
+            this.messageDetailsDateLabel.Text = "label3";
             // 
-            // columnHeader3
+            // label3
             // 
-            this.columnHeader3.Text = "Treść";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 46);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(37, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Treść:";
+            // 
+            // messageDetailsContentTextBox
+            // 
+            this.messageDetailsContentTextBox.Location = new System.Drawing.Point(57, 49);
+            this.messageDetailsContentTextBox.Multiline = true;
+            this.messageDetailsContentTextBox.Name = "messageDetailsContentTextBox";
+            this.messageDetailsContentTextBox.ReadOnly = true;
+            this.messageDetailsContentTextBox.Size = new System.Drawing.Size(405, 83);
+            this.messageDetailsContentTextBox.TabIndex = 5;
             // 
             // MainForm
             // 
@@ -416,6 +550,8 @@
             this.sendPage.ResumeLayout(false);
             this.sendPage.PerformLayout();
             this.receivePage.ResumeLayout(false);
+            this.messageDetailsGroupBox.ResumeLayout(false);
+            this.messageDetailsGroupBox.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -461,5 +597,17 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.TreeView inboxTreeView;
+        private System.Windows.Forms.ListView sentMessagesListView;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.GroupBox messageDetailsGroupBox;
+        private System.Windows.Forms.TextBox messageDetailsContentTextBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label messageDetailsDateLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label messageDetailsFromToLabel;
+        private System.Windows.Forms.Label label1;
     }
 }

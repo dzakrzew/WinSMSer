@@ -18,13 +18,13 @@ namespace WinSMSer.Services
             Load();
         }
 
-        public List<Model.Message> GetReceivedMessages()
+        public List<Model.Message> GetAllMessages()
         {
-            var all = from Model.Message message in messages
-                   where message.Type == Model.MessageType.Received
+            var result = from Model.Message message in this.messages
+                   orderby message.Date descending
                    select message;
 
-            return all.ToList();
+            return result.ToList();
         }
 
         public void AppendMessages(List<Model.Message> messages)

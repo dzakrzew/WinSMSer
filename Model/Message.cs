@@ -11,7 +11,7 @@ namespace WinSMSer.Model
         public MessageType Type { get; set; }
         public string Recipent { get; set; }
         public string Sender { get; set; }
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         public string Content { get; set; }
     }
 }

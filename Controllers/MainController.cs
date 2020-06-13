@@ -39,7 +39,7 @@ namespace WinSMSer.Controllers
 
         public void UpdateMessageList()
         {
-            view.MessageList = messageDatabaseService.GetReceivedMessages();
+            view.MessageList = messageDatabaseService.GetAllMessages();
             view.UpdateMessageList();
         }
 
@@ -85,7 +85,7 @@ namespace WinSMSer.Controllers
             view.SendingTaskForm.UpdateProgress(e.ProgressPercentage, (int[])e.UserState);
         }
 
-        private void MessageSendWorker_DoWork(object sender, DoWorkEventArgs e, string[] recipients, string message)
+        private void MessageSendWorker_DoWork(object sender, DoWorkEventArgs e, string[] recipients, string content)
         {
             int countAll = recipients.Length;
             int countPending = recipients.Length;
@@ -96,12 +96,24 @@ namespace WinSMSer.Controllers
                 countAll, countPending, countSent, countError
             });
 
+
+            List<Model.Message> messages = new List<Model.Message>();
+
+            messageDatabaseService.AppendMessages(messages);
             foreach (string recipient in recipients)
             {
-                if (usbModemService.SendSms(recipient, message))
+                if (usbModemService.SendSms(recipient, content))
                 {
                     countSent += 1;
                     countPending -= 1;
+
+                    Model.Message message = new Model.Message();
+                    message.Type = Model.MessageType.Sent;
+                    message.Recipent = recipient;
+                    message.Date = DateTime.Now;
+                    message.Content = content.Trim();
+
+                    messages.Add(message);
                 }
                 else
                 {
@@ -112,6 +124,9 @@ namespace WinSMSer.Controllers
                     countAll, countPending, countSent, countError
                 });
             }
+
+
+            messageDatabaseService.AppendMessages(messages);
         }
 
         public void RefreshMessageList()
