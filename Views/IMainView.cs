@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinSMSer.Forms;
-using WinSMSer.Presenters;
+using WinSMSer.Controllers;
 
 namespace WinSMSer.Views
 {
     public interface IMainView
     {
-        MainPresenter Presenter { set; }
+        MainController Controller { set; }
         SendingTaskForm SendingTaskForm { get; set; }
         IList<string> PortList { get; set; }
         IList<Model.Message> MessageList { get; set; }

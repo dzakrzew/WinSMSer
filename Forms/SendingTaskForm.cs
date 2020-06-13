@@ -12,7 +12,7 @@ namespace WinSMSer.Forms
 {
     public partial class SendingTaskForm : Form
     {
-        public Presenters.MainPresenter Presenter { get; set; }
+        public Controllers.MainController Controller { get; set; }
 
         public SendingTaskForm()
         {
@@ -31,7 +31,7 @@ namespace WinSMSer.Forms
 
         public void StartSending(string[] recipients, string message)
         {
-            Presenter.SendMessage(recipients, message);
+            Controller.SendMessage(recipients, message);
         }
 
         public void SendingDone()

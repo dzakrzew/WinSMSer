@@ -13,7 +13,7 @@ namespace WinSMSer.Forms
 {
     public partial class MainForm : Form, Views.IMainView
     {
-        public Presenters.MainPresenter Presenter { get; set; }
+        public Controllers.MainController Controller { get; set; }
         public SendingTaskForm SendingTaskForm { get; set; }
 
         private bool _isConnected;
@@ -75,7 +75,7 @@ namespace WinSMSer.Forms
 
         private void refreshPortsButton_Click(object sender, EventArgs e)
         {
-            this.Presenter.UpdatePortList();
+            this.Controller.UpdatePortList();
         }
 
         private void portAdvancedButton_Click(object sender, EventArgs e)
@@ -87,13 +87,13 @@ namespace WinSMSer.Forms
         {
             if (IsConnected)
             {
-                Presenter.DisconnectModem();
+                Controller.DisconnectModem();
             }
             else
             {
                 if (portComboBox.SelectedIndex >= 0)
                 {
-                    Presenter.SetPort(portComboBox.SelectedItem.ToString(), pinTextBox.Text);
+                    Controller.SetPort(portComboBox.SelectedItem.ToString(), pinTextBox.Text);
                 }
                 else
                 {
@@ -159,7 +159,7 @@ namespace WinSMSer.Forms
             }
 
             this.SendingTaskForm = new SendingTaskForm();
-            this.SendingTaskForm.Presenter = Presenter;
+            this.SendingTaskForm.Controller = Controller;
             this.SendingTaskForm.StartSending(recipients.ToArray(), messageTextBox.Text);
             this.SendingTaskForm.ShowDialog();
         }
@@ -226,12 +226,12 @@ namespace WinSMSer.Forms
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Presenter.DisconnectModem();
+            Controller.DisconnectModem();
         }
 
         private void messagesRefreshButton_Click(object sender, EventArgs e)
         {
-            Presenter.RefreshMessageList();
+            Controller.RefreshMessageList();
         }
     }
 }

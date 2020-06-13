@@ -13,7 +13,7 @@ namespace WinSMSer.Services
 {
     public class UsbModemService
     {
-        public Presenters.MainPresenter Presenter { get; set; }
+        public Controllers.MainController Controller { get; set; }
         private string selectedPort;
         public string ModemInfo { get; private set; }
         private SerialPort serialPort;

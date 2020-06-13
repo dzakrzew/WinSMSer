@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinSMSer.Properties;
 
-namespace WinSMSer.Presenters
+namespace WinSMSer.Controllers
 {
-    public class MainPresenter
+    public class MainController
     {
         private readonly Views.IMainView view;
         private readonly Services.UsbModemService usbModemService;
         private readonly Services.MessageDatabaseService messageDatabaseService;
         private BackgroundWorker messageSendWorker;
 
-        public MainPresenter(Views.IMainView view, Services.UsbModemService usbModemService, Services.MessageDatabaseService messageDatabaseService)
+        public MainController(Views.IMainView view, Services.UsbModemService usbModemService, Services.MessageDatabaseService messageDatabaseService)
         {
             this.view = view;
             this.usbModemService = usbModemService;
             this.messageDatabaseService = messageDatabaseService;
 
-            view.Presenter = this;
-            usbModemService.Presenter = this;
+            view.Controller = this;
+            usbModemService.Controller = this;
 
             UpdatePortList();
             UpdateMessageList();
