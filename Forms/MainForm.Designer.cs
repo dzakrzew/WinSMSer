@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Odebrane");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Wysłane");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Odebrane");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Wysłane");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.modemPage = new System.Windows.Forms.TabPage();
             this.portAdvancedGroupBox = new System.Windows.Forms.GroupBox();
@@ -67,7 +68,7 @@
             this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCloseItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pomocToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.oProgramieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAboutItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
             this.label1 = new System.Windows.Forms.Label();
@@ -314,7 +315,7 @@
             this.receivePage.Name = "receivePage";
             this.receivePage.Size = new System.Drawing.Size(592, 356);
             this.receivePage.TabIndex = 2;
-            this.receivePage.Text = "Skrzynka odbiorcza";
+            this.receivePage.Text = "Skrzynka wiadomości";
             this.receivePage.UseVisualStyleBackColor = true;
             // 
             // messageDetailsGroupBox
@@ -366,15 +367,15 @@
             // 
             this.inboxTreeView.Location = new System.Drawing.Point(3, 3);
             this.inboxTreeView.Name = "inboxTreeView";
-            treeNode7.Name = "inboxNode";
-            treeNode7.Tag = "inbox";
-            treeNode7.Text = "Odebrane";
-            treeNode8.Name = "outboxNode";
-            treeNode8.Tag = "outbox";
-            treeNode8.Text = "Wysłane";
+            treeNode1.Name = "inboxNode";
+            treeNode1.Tag = "inbox";
+            treeNode1.Text = "Odebrane";
+            treeNode2.Name = "outboxNode";
+            treeNode2.Tag = "outbox";
+            treeNode2.Text = "Wysłane";
             this.inboxTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
+            treeNode1,
+            treeNode2});
             this.inboxTreeView.Size = new System.Drawing.Size(112, 176);
             this.inboxTreeView.TabIndex = 2;
             this.inboxTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.inboxTreeView_AfterSelect);
@@ -439,23 +440,24 @@
             // menuCloseItem
             // 
             this.menuCloseItem.Name = "menuCloseItem";
-            this.menuCloseItem.Size = new System.Drawing.Size(118, 22);
+            this.menuCloseItem.Size = new System.Drawing.Size(180, 22);
             this.menuCloseItem.Text = "Zakończ";
             this.menuCloseItem.Click += new System.EventHandler(this.menuCloseItem_Click);
             // 
             // pomocToolStripMenuItem1
             // 
             this.pomocToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.oProgramieToolStripMenuItem});
+            this.menuAboutItem});
             this.pomocToolStripMenuItem1.Name = "pomocToolStripMenuItem1";
             this.pomocToolStripMenuItem1.Size = new System.Drawing.Size(57, 20);
             this.pomocToolStripMenuItem1.Text = "Pomoc";
             // 
-            // oProgramieToolStripMenuItem
+            // menuAboutItem
             // 
-            this.oProgramieToolStripMenuItem.Name = "oProgramieToolStripMenuItem";
-            this.oProgramieToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.oProgramieToolStripMenuItem.Text = "O programie";
+            this.menuAboutItem.Name = "menuAboutItem";
+            this.menuAboutItem.Size = new System.Drawing.Size(180, 22);
+            this.menuAboutItem.Text = "O programie";
+            this.menuAboutItem.Click += new System.EventHandler(this.menuAboutItem_Click);
             // 
             // statusStrip
             // 
@@ -534,6 +536,7 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "MainForm";
@@ -576,7 +579,7 @@
         private System.Windows.Forms.Button refreshPortsButton;
         private System.Windows.Forms.ToolStripMenuItem menuCloseItem;
         private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem oProgramieToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuAboutItem;
         private System.Windows.Forms.TextBox pinTextBox;
         private System.Windows.Forms.Label pinLabel;
         private System.Windows.Forms.StatusStrip statusStrip;

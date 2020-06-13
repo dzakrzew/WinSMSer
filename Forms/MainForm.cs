@@ -142,12 +142,6 @@ namespace WinSMSer.Forms
             updateFormsVisibility();
         }
 
-        private void aboutProgramMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = new Forms.AboutProgramForm();
-            form.ShowDialog();
-        }
-
         /// <summary>
         /// Funkcja aktualizująca widoczność i aktywność elementów formularzy (np. przycisków)
         /// </summary>
@@ -284,6 +278,12 @@ namespace WinSMSer.Forms
             messageDetailsFromToLabel.Text = e.Item.SubItems[0].Text;
             messageDetailsDateLabel.Text = e.Item.SubItems[1].Text;
             messageDetailsContentTextBox.Text = e.Item.SubItems[2].Text;
+        }
+
+        private void menuAboutItem_Click(object sender, EventArgs e)
+        {
+            var form = new Forms.AboutProgramForm();
+            form.ShowDialog();
         }
     }
 }

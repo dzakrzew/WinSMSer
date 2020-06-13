@@ -61,6 +61,26 @@ namespace WinSMSer.Properties {
         }
         
         /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu &lt;!doctype html&gt;
+        ///&lt;html&gt;
+        ///	&lt;head&gt;
+        ///		&lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///	&lt;/head&gt;
+        ///	&lt;body&gt;
+        ///		&lt;h1&gt;WinSMSer&lt;/h1&gt;
+        ///		&lt;p&gt;Program służący do wysyłki SMS poprzez modem USB podłączany do komputera. Pozwala wysyłać masowo wiadomości, a także odbierać SMS-y od innych.&lt;/p&gt;
+        ///		&lt;hr&gt;
+        ///		&lt;h3&gt;Jak zacząć?&lt;/h3&gt;
+        ///		&lt;p&gt;Aby rozpocząć pracę z programem, należy przygotować modem USB i podłączyć go do komputera. Następnie trzeba określić port, do którego został on podłączony.&lt;/p&gt;
+        ///		&lt;p&gt;Można go znaleźć poprzez &quot;Menedżer urządzeń&quot; systemu W [obcięto pozostałą część ciągu]&quot;;.
+        /// </summary>
+        internal static string AboutProgram {
+            get {
+                return ResourceManager.GetString("AboutProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// Wyszukuje zlokalizowany ciąg podobny do ciągu Połącz.
         /// </summary>
         internal static string Connect {
@@ -97,6 +117,15 @@ namespace WinSMSer.Properties {
         }
         
         /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Rozłączono.
+        /// </summary>
+        internal static string Disconnected {
+            get {
+                return ResourceManager.GetString("Disconnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// Wyszukuje zlokalizowany ciąg podobny do ciągu Wystąpił błąd.
         /// </summary>
         internal static string ErrorCaption {
@@ -120,6 +149,24 @@ namespace WinSMSer.Properties {
         internal static string ModemPortNotSelected {
             get {
                 return ResourceManager.GetString("ModemPortNotSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Nieprawidłowy numer PIN.
+        /// </summary>
+        internal static string PinInvalid {
+            get {
+                return ResourceManager.GetString("PinInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Wymagane jest podanie numeru PIN.
+        /// </summary>
+        internal static string PinRequired {
+            get {
+                return ResourceManager.GetString("PinRequired", resourceCulture);
             }
         }
         

@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<h1>WinSMSer</h1>
+		<p>Program s³u¿¹cy do wysy³ki SMS poprzez modem USB pod³¹czany do komputera. Pozwala wysy³aæ masowo wiadomoœci, a tak¿e odbieraæ SMS-y od innych.</p>
+		<hr>
+		<h3>Jak zacz¹æ?</h3>
+		<p>Aby rozpocz¹æ pracê z programem, nale¿y przygotowaæ modem USB i pod³¹czyæ go do komputera. Nastêpnie trzeba okreœliæ port, do którego zosta³ on pod³¹czony.</p>
+		<p>Mo¿na go znaleŸæ poprzez "Mened¿er urz¹dzeñ" systemu Windows, który pokazuje porty "COM" przypisane do urz¹dzenia.</p>
+		<p>Po wybraniu odpowiedniego portu "COM" z listy i ewentualnym wprowadzeniu numeru PIN urz¹dzenia, nale¿y klikn¹æ przycisk "Po³¹cz" - od tego momentu mo¿na wysy³aæ wiadomoœci, a tak¿e je odbieraæ.</p>
+		<hr>
+		<h3>Wspierane modemy</h3>
+		<ul>
+			<li>HUAWEI E156G</li>
+		</ul>
+	</body>
+</html>

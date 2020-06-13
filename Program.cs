@@ -18,11 +18,19 @@ namespace WinSMSer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // inicjalizacja głównego widoku
             var view = new Forms.MainForm();
+
+            // inicjalizacja usługi połączenia z modemem USB
             var usbModemService = new Services.UsbModemService();
-            var messageDatabaseService = new Services.MessageDatabaseService();
+
+            // inicjalizacja usługi przechowywania wiadomości w pliku (określonym ścieżką)
+            var messageDatabaseService = new Services.MessageDatabaseService("messages.json");
+
+            // inicjalizacja głównego kontrolera programu
             var controller = new Controllers.MainController(view, usbModemService, messageDatabaseService);
 
+            // uruchomienie programu
             Application.Run(view);
         }
     }

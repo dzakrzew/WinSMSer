@@ -11,6 +11,9 @@ using WinSMSer.Properties;
 
 namespace WinSMSer.Controllers
 {
+    /// <summary>
+    /// Główny kontroler programu
+    /// </summary>
     public class MainController
     {
         private readonly Views.IMainView view;
@@ -27,22 +30,32 @@ namespace WinSMSer.Controllers
             view.Controller = this;
             usbModemService.Controller = this;
 
+            // odświeżanie listy portów i wiadomości przy uruchomieniu programu
             UpdatePortList();
             UpdateMessageList();
         }
 
+        /// <summary>
+        /// Odświeżenie listy dostępnych portów
+        /// </summary>
         public void UpdatePortList()
         {
             string[] availablePorts = usbModemService.GetAvailablePorts();
             view.PortList = availablePorts.ToList();
         }
 
+        /// <summary>
+        /// Odświeżenie listy wiadomości SMS w skrzynce
+        /// </summary>
         public void UpdateMessageList()
         {
             view.MessageList = messageDatabaseService.GetAllMessages();
             view.UpdateMessageList();
         }
 
+        /// <summary>
+        /// Inicjuje połączenie z modemem na podanym porcie i ewentualnie z numerem PIN
+        /// </summary>
         public void SetPort(string port, string pin)
         {
             try
@@ -64,6 +77,9 @@ namespace WinSMSer.Controllers
             }
         }
 
+        /// <summary>
+        /// Wysyła wiadomość do podanej grupy odbiorców
+        /// </summary>
         public void SendMessage(string[] recipients, string message)
         {
             messageSendWorker = new BackgroundWorker();
@@ -75,16 +91,25 @@ namespace WinSMSer.Controllers
             messageSendWorker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// Funkcja wywoływana po zakończeniu asynchronicznego wysyłania wiadomości
+        /// </summary>
         private void MessageSendWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             view.SendingTaskForm.SendingDone();
         }
 
+        /// <summary>
+        /// Raportowanie o postępach asynchronicznego wysyłania wiadomości
+        /// </summary>
         private void MessageSendWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             view.SendingTaskForm.UpdateProgress(e.ProgressPercentage, (int[])e.UserState);
         }
 
+        /// <summary>
+        /// Funkcja wywoływana asynchronicznie, wysyła wiadomości SMS do grupy odbiorców
+        /// </summary>
         private void MessageSendWorker_DoWork(object sender, DoWorkEventArgs e, string[] recipients, string content)
         {
             int countAll = recipients.Length;
@@ -125,10 +150,13 @@ namespace WinSMSer.Controllers
                 });
             }
 
-
+            // zapisuje wysłane wiadomości w skrzynce "Wysłane"
             messageDatabaseService.AppendMessages(messages);
         }
 
+        /// <summary>
+        /// Odświeża listę wiadomości poprzez pobranie z modemu nieprzeczytanych SMS
+        /// </summary>
         public void RefreshMessageList()
         {
             List<Model.Message> messages = usbModemService.GetUnreadMessages();
@@ -137,10 +165,13 @@ namespace WinSMSer.Controllers
             UpdateMessageList();
         }
 
+        /// <summary>
+        /// Zamyka połączenie z modemem
+        /// </summary>
         public void DisconnectModem()
         {
             usbModemService.DisconnectModem();
-            view.UpdateStatusBar("Rozłączono");
+            view.UpdateStatusBar(Resources.Disconnected);
             view.IsConnected = false;
         }
     }

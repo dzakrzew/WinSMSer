@@ -9,9 +9,13 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinSMSer.Properties;
 
 namespace WinSMSer.Services
 {
+    /// <summary>
+    /// Usługa łącząca się z modemem i wykonująca na nim operacje
+    /// </summary>
     public class UsbModemService
     {
         public Controllers.MainController Controller { get; set; }
@@ -19,6 +23,9 @@ namespace WinSMSer.Services
         public string ModemInfo { get; private set; }
         private SerialPort serialPort;
 
+        /// <summary>
+        /// Sprawdzanie czy podano prawidłowy numer PIN
+        /// </summary>
         private bool checkPin(string pin)
         {
             serialPort.WriteLine("AT+CPIN=" + pin + Environment.NewLine);
@@ -28,6 +35,9 @@ namespace WinSMSer.Services
             return response.Contains("OK");
         }
 
+        /// <summary>
+        /// Pobiera informacje o producencie i modelu modemu
+        /// </summary>
         private void getModemInfo()
         {
             serialPort.WriteLine("ati" + Environment.NewLine);
@@ -44,6 +54,9 @@ namespace WinSMSer.Services
             }
         }
 
+        /// <summary>
+        /// Próba połączenia z modemem na podanym porcie i przy użyciu PIN-u
+        /// </summary>
         private bool tryConnectWithModem(string port, string pin = "")
         {
             selectedPort = port;
@@ -67,13 +80,13 @@ namespace WinSMSer.Services
                     if (pin == "")
                     {
                         serialPort.Close();
-                        throw new Exception("Wymagane jest podanie numeru PIN");
+                        throw new Exception(Resources.PinRequired);
                     }
 
                     if (pin.Length > 0 && !checkPin(pin))
                     {
                         serialPort.Close();
-                        throw new Exception("Nieprawidłowy numer PIN");
+                        throw new Exception(Resources.PinInvalid);
                     }
                 }
 
@@ -82,11 +95,16 @@ namespace WinSMSer.Services
                 return true;
             }
 
+            // jeżeli błąd, zamknij połączenie z modemem
             serialPort.Close();
 
             return false;
         }
 
+        /// <summary>
+        /// Pobiera listę dostępnych portów COM, na których może znajdować się modem
+        /// </summary>
+        /// <returns></returns>
         public string[] GetAvailablePorts()
         {
             string[] ports = SerialPort.GetPortNames();
@@ -94,16 +112,17 @@ namespace WinSMSer.Services
             return ports;
         }
 
+        /// <summary>
+        /// Wybieranie modemu do połączenia
+        /// </summary>
         public bool SelectPort(string port, string pin)
         {
             return tryConnectWithModem(port, pin);
         }
 
-        public string GetSelectedPort()
-        {
-            return selectedPort;
-        }
-
+        /// <summary>
+        /// Zamknięcie połączenia z modemem
+        /// </summary>
         public void DisconnectModem()
         {
             if (serialPort != null)
@@ -113,15 +132,18 @@ namespace WinSMSer.Services
 
         }
 
+        /// <summary>
+        /// Wysyłanie SMS na podany numer telefonu
+        /// </summary>
         public bool SendSms(string recipient, string content)
         {
-            // set sms text mode
+            // ustawienie trybu tekstowego sms
             serialPort.WriteLine("at+cmgf=1" + Environment.NewLine);
             Thread.Sleep(100);
 
             if (serialPort.ReadExisting().Contains("OK"))
             {
-                // send message
+                // wysłanie wiadomości
                 serialPort.WriteLine("at+cmgs=\"" + recipient + "\"" + Environment.NewLine);
                 Thread.Sleep(100);
 
@@ -140,6 +162,10 @@ namespace WinSMSer.Services
             return false;
         }
 
+        /// <summary>
+        /// Pobiera z modemu listę nieprzeczytanych wiadomości SMS
+        /// </summary>
+        /// <returns></returns>
         public List<Model.Message> GetUnreadMessages()
         {
             List<Model.Message> messages = new List<Model.Message>();

@@ -16,7 +16,7 @@ namespace WinSMSer.Forms
         public AboutProgramForm()
         {
             InitializeComponent();
-            webBrowser.DocumentText = "";
+            webBrowser.DocumentText = Resources.AboutProgram;
         }
     }
 }
