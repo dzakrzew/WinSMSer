@@ -4,6 +4,10 @@ Program służący do wysyłki SMS poprzez modem USB podłączany do komputera. 
 ## Schemat architektury
 ![schemat architektury](https://github.com/dzakrzew/WinSMSer/blob/master/docs/schema.png?raw=true)
 
+## Wymagania
+* system Windows 10
+* .NET Framework 4.7.2
+
 ## Wspierane modemy
 * HUAWEI E156G
 
