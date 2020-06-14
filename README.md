@@ -6,3 +6,6 @@ Program służący do wysyłki SMS poprzez modem USB podłączany do komputera. 
 
 ## Wspierane modemy
 * HUAWEI E156G
+
+## Licencja
+[MIT](https://github.com/dzakrzew/CSIrc/blob/master/LICENSE.md)
