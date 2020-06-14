@@ -152,6 +152,7 @@ namespace WinSMSer.Services
                 serialPort.WriteLine((char)26 + Environment.NewLine);
                 Thread.Sleep(2000);
 
+                // oczekiwanie na wiadomość OK
                 while (!serialPort.ReadExisting().Contains("OK"))
                 {
                 }
@@ -170,6 +171,7 @@ namespace WinSMSer.Services
         {
             List<Model.Message> messages = new List<Model.Message>();
 
+            // ustawienie tekstowego trybu wiadomości
             serialPort.WriteLine("at+cmgf=1" + Environment.NewLine);
             Thread.Sleep(100);
             serialPort.WriteLine("at+cmgl=\"ALL\"" + Environment.NewLine);
@@ -189,7 +191,7 @@ namespace WinSMSer.Services
                     message.Sender = m.Groups[3].Value;
 
                     // parsowanie tego dziwnego formatu daty
-                    message.Date = DateTime.ParseExact(m.Groups[4].Value, "yy/MM/dd,HH:mm:ss", CultureInfo.InvariantCulture);
+                    message.Date = DateTime.ParseExact(m.Groups[4].Value.Split('+')[0], "yy/MM/dd,HH:mm:ss", CultureInfo.InvariantCulture);
                     message.Content = m.Groups[5].Value.Trim();
 
                     messages.Add(message);
